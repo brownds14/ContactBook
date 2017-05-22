@@ -17,6 +17,7 @@ using Microsoft.Practices.ServiceLocation;
 using ContactBook.UI.WPFApp.ViewModel;
 using ContactBook.DAL.Repositories;
 using ContactBook.Domain;
+using System.Configuration;
 
 namespace ContactBook.UI.WPFAppCompRoot
 {
@@ -44,7 +45,8 @@ namespace ContactBook.UI.WPFAppCompRoot
             ////    SimpleIoc.Default.Register<IDataService, DataService>();
             ////}
 
-            SimpleIoc.Default.Register<ContactsContext>(() => new ContactsContext("ContactsDev"));
+            string connString = ConfigurationManager.ConnectionStrings["ContactsDev"].ConnectionString;
+            SimpleIoc.Default.Register<ContactsContext>(() => new ContactsContext(connString));
             SimpleIoc.Default.Register<IAddressRepository, AddressRepository>();
             SimpleIoc.Default.Register<IEmailRepository, EmailRepository>();
             SimpleIoc.Default.Register<IGroupRepository, GroupRepository>();

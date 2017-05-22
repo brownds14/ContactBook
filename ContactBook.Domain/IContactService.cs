@@ -13,5 +13,6 @@ namespace ContactBook.Domain
         IEnumerable<Contact> Find(Expression<Func<Contact, bool>> pred);
         bool Add(Contact c);
         bool Remove(Contact c);
+        Contact Get(int id);
     }
 }

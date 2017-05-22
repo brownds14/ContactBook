@@ -33,6 +33,11 @@ namespace ContactBook.Domain
             return _unit.Contacts.Find(pred);
         }
 
+        public Contact Get(int id)
+        {
+            return _unit.Contacts.Get(id);
+        }
+
         public IEnumerable<Contact> GetAll()
         {
             return _unit.Contacts.GetAll();
