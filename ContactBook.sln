@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactBook.Domain", "ContactBook.Domain\ContactBook.Domain.csproj", "{7E798FFB-CFDF-4DF3-AE87-3DD82282DCE4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactBook.DAL.Logging", "ContactBook.DAL.Logging\ContactBook.DAL.Logging.csproj", "{87ABF5B7-A7E4-4627-855D-3D3B27CB6B25}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactBook.DAL.Repositories", "ContactBook.DAL.Repositories\ContactBook.DAL.Repositories.csproj", "{62E69A13-657C-4C93-8B7C-8D263EE8067E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{87ABF5B7-A7E4-4627-855D-3D3B27CB6B25} = {87ABF5B7-A7E4-4627-855D-3D3B27CB6B25}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WPFApp", "WPFApp", "{8BB61B3E-C4FD-497C-AA56-AB87C896DD5C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactBook.UI.WPFApp", "ContactBook.UI.WPFApp\ContactBook.UI.WPFApp.csproj", "{B45E7BDD-DEF7-4058-8315-25239032B8FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactBook.UI.WPFAppCompRoot", "ContactBook.UI.WPFAppCompRoot\ContactBook.UI.WPFAppCompRoot.csproj", "{F2709667-9E2F-484F-99F7-EEAF708A196E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{62E69A13-657C-4C93-8B7C-8D263EE8067E} = {62E69A13-657C-4C93-8B7C-8D263EE8067E}
+		{87ABF5B7-A7E4-4627-855D-3D3B27CB6B25} = {87ABF5B7-A7E4-4627-855D-3D3B27CB6B25}
+		{B45E7BDD-DEF7-4058-8315-25239032B8FA} = {B45E7BDD-DEF7-4058-8315-25239032B8FA}
+		{7E798FFB-CFDF-4DF3-AE87-3DD82282DCE4} = {7E798FFB-CFDF-4DF3-AE87-3DD82282DCE4}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7E798FFB-CFDF-4DF3-AE87-3DD82282DCE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E798FFB-CFDF-4DF3-AE87-3DD82282DCE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E798FFB-CFDF-4DF3-AE87-3DD82282DCE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E798FFB-CFDF-4DF3-AE87-3DD82282DCE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87ABF5B7-A7E4-4627-855D-3D3B27CB6B25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87ABF5B7-A7E4-4627-855D-3D3B27CB6B25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87ABF5B7-A7E4-4627-855D-3D3B27CB6B25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87ABF5B7-A7E4-4627-855D-3D3B27CB6B25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62E69A13-657C-4C93-8B7C-8D263EE8067E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62E69A13-657C-4C93-8B7C-8D263EE8067E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62E69A13-657C-4C93-8B7C-8D263EE8067E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62E69A13-657C-4C93-8B7C-8D263EE8067E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B45E7BDD-DEF7-4058-8315-25239032B8FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B45E7BDD-DEF7-4058-8315-25239032B8FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B45E7BDD-DEF7-4058-8315-25239032B8FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B45E7BDD-DEF7-4058-8315-25239032B8FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2709667-9E2F-484F-99F7-EEAF708A196E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2709667-9E2F-484F-99F7-EEAF708A196E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2709667-9E2F-484F-99F7-EEAF708A196E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2709667-9E2F-484F-99F7-EEAF708A196E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B45E7BDD-DEF7-4058-8315-25239032B8FA} = {8BB61B3E-C4FD-497C-AA56-AB87C896DD5C}
+		{F2709667-9E2F-484F-99F7-EEAF708A196E} = {8BB61B3E-C4FD-497C-AA56-AB87C896DD5C}
+	EndGlobalSection
+EndGlobal
