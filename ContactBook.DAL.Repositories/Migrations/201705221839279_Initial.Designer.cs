@@ -13,7 +13,7 @@ namespace ContactBook.DAL.Repositories.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201705201147158_Initial"; }
+            get { return "201705221839279_Initial"; }
         }
         
         string IMigrationMetadata.Source

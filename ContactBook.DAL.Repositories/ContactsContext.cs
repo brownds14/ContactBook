@@ -5,6 +5,11 @@ namespace ContactBook.DAL.Repositories
 {
     public class ContactsContext : DbContext
     {
+        public ContactsContext()
+            : base()
+        {
+        }
+
         public ContactsContext(string connString)
             : base(connString)
         {
@@ -29,6 +34,24 @@ namespace ContactBook.DAL.Repositories
             builder.Entity<Contact>().Property(x => x.MiddleName).HasMaxLength(Contact.MiddleNameMaxLength);
             builder.Entity<Contact>().Property(x => x.LastName).HasMaxLength(Contact.LastNameMaxLength);
             builder.Entity<Contact>().Property(x => x.Notes).HasMaxLength(Contact.NotesMaxLength);
+
+            //Cascade on delete
+            builder.Entity<Contact>()
+                .HasOptional(c => c.Addresses)
+                .WithMany()
+                .WillCascadeOnDelete(true);
+            builder.Entity<Contact>()
+                .HasOptional(c => c.Emails)
+                .WithMany()
+                .WillCascadeOnDelete(true);
+            builder.Entity<Contact>()
+                .HasOptional(c => c.Groups)
+                .WithMany()
+                .WillCascadeOnDelete(true);
+            builder.Entity<Contact>()
+                .HasOptional(c => c.Phones)
+                .WithMany()
+                .WillCascadeOnDelete(true);
 
             //Email
             builder.Entity<Email>().Property(x => x.EmailAddr).HasMaxLength(Email.EmailAddrMaxLength);
