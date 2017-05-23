@@ -36,21 +36,21 @@ namespace ContactBook.DAL.Repositories
             builder.Entity<Contact>().Property(x => x.Notes).HasMaxLength(Contact.NotesMaxLength);
 
             //Cascade on delete
-            builder.Entity<Contact>()
-                .HasOptional(c => c.Addresses)
-                .WithMany()
+            builder.Entity<Address>()
+                .HasRequired<Contact>(x => x.Contact)
+                .WithMany(x => x.Addresses)
                 .WillCascadeOnDelete(true);
-            builder.Entity<Contact>()
-                .HasOptional(c => c.Emails)
-                .WithMany()
+            builder.Entity<Email>()
+                .HasRequired<Contact>(x => x.Contact)
+                .WithMany(x => x.Emails)
                 .WillCascadeOnDelete(true);
-            builder.Entity<Contact>()
-                .HasOptional(c => c.Groups)
-                .WithMany()
+            builder.Entity<Group>()
+                .HasRequired<Contact>(x => x.Contact)
+                .WithMany(x => x.Groups)
                 .WillCascadeOnDelete(true);
-            builder.Entity<Contact>()
-                .HasOptional(c => c.Phones)
-                .WithMany()
+            builder.Entity<Phone>()
+                .HasRequired<Contact>(x => x.Contact)
+                .WithMany(x => x.Phones)
                 .WillCascadeOnDelete(true);
 
             //Email

@@ -34,10 +34,10 @@ namespace ContactBook.Domain
         public string LastName { get; set; }
         public string Notes { get; set; }
 
-        public List<Address> Addresses { get; private set; }
-        public List<Email> Emails { get; private set; }
-        public List<Group> Groups { get; private set; }
-        public List<Phone> Phones { get; private set; }
+        public virtual ICollection<Address> Addresses { get; set; }
+        public virtual ICollection<Email> Emails { get; set; }
+        public virtual ICollection<Group> Groups { get; set; }
+        public virtual ICollection<Phone> Phones { get; set; }
 
         private void AddError(string key, string value)
         {

@@ -88,6 +88,9 @@
             <StackPanel Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Vertical">
                 <Label Content="Notes" />
                 <wpfTool:RichTextBox IsEnabled="{Binding IsEditing}" Text="{Binding SelectedContact.Notes}">
+                    <wpfTool:RichTextBox.TextFormatter>
+                        <wpfTool:PlainTextFormatter />
+                    </wpfTool:RichTextBox.TextFormatter>
                     <wpfTool:RichTextBox.Resources>
                         <Style TargetType="{x:Type Paragraph}">
                             <Setter Property="Margin" Value="0" />

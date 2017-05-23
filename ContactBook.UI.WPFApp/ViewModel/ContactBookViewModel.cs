@@ -40,6 +40,7 @@ namespace ContactBook.UI.WPFApp.ViewModel
         public void AddContact()
         {
             SelectedContactIndex = -1;
+            SelectedContact = new Contact();
             IsEditing = true;
         }
 
@@ -62,6 +63,10 @@ namespace ContactBook.UI.WPFApp.ViewModel
 
         public void SaveContact()
         {
+            _selectedContact.Emails.Add(new Email() { EmailAddr = $"testing@example.com" });
+            _service.Add(_selectedContact);
+            ContactList.Add(_selectedContact);
+            StatusString = "Contact successfully added.";
             IsEditing = false;
         }
 

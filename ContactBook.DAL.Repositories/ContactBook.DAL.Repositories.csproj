@@ -57,9 +57,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContactsContext.cs" />
-    <Compile Include="Migrations\201705221839279_Initial.cs" />
-    <Compile Include="Migrations\201705221839279_Initial.Designer.cs">
-      <DependentUpon>201705221839279_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201705231331414_Initial.cs" />
+    <Compile Include="Migrations\201705231331414_Initial.Designer.cs">
+      <DependentUpon>201705231331414_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -82,8 +82,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201705221839279_Initial.resx">
-      <DependentUpon>201705221839279_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201705231331414_Initial.resx">
+      <DependentUpon>201705231331414_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

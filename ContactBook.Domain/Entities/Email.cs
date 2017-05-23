@@ -7,5 +7,7 @@
 
         public int Id { get; set; }
         public string EmailAddr { get; set; }
+
+        public virtual Contact Contact { get; set; }
     }
 }
