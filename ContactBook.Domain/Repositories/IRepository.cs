@@ -11,5 +11,7 @@ namespace ContactBook.Domain
         IEnumerable<T> Find(Expression<Func<T, bool>> pred);
         void Add(T entity);
         void Remove(T entity);
+        void Update(T entity);
+        void Reload(T entity);
     }
 }

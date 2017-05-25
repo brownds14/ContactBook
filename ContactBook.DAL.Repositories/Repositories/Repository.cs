@@ -36,9 +36,19 @@ namespace ContactBook.DAL.Repositories
             return Context.Set<T>().ToList();
         }
 
+        public void Reload(T entity)
+        {
+            Context.Entry(entity).Reload();
+        }
+
         public void Remove(T entity)
         {
             Context.Set<T>().Remove(entity);
+        }
+
+        public void Update(T entity)
+        {
+            Context.Entry(entity).State = EntityState.Modified;
         }
     }
 }

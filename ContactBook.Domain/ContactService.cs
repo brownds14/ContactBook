@@ -43,11 +43,22 @@ namespace ContactBook.Domain
             return _unit.Contacts.GetAll();
         }
 
+        public void Reload(Contact c)
+        {
+            _unit.Contacts.Reload(c);
+        }
+
         public bool Remove(Contact c)
         {
             _unit.Contacts.Remove(c);
             _unit.Complete();
             return true;
+        }
+
+        public void Update(Contact c)
+        {
+            _unit.Contacts.Update(c);
+            _unit.Complete();
         }
     }
 }

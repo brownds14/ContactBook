@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ContactBook.Domain
 {
@@ -14,5 +11,7 @@ namespace ContactBook.Domain
         bool Add(Contact c);
         bool Remove(Contact c);
         Contact Get(int id);
+        void Update(Contact c);
+        void Reload(Contact c);
     }
 }

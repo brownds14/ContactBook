@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\InverseBoolToVisibilityConverter.cs" />
+    <Compile Include="Model\ContactModel.cs" />
     <Compile Include="ViewModel\ContactBookViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -102,9 +103,7 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\ContactBook.Domain\ContactBook.Domain.csproj">
       <Project>{7E798FFB-CFDF-4DF3-AE87-3DD82282DCE4}</Project>

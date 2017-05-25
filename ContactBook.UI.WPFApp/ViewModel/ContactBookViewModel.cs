@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
+using System.Collections.Specialized;
 
 namespace ContactBook.UI.WPFApp.ViewModel
 {
@@ -63,16 +64,42 @@ namespace ContactBook.UI.WPFApp.ViewModel
 
         public void SaveContact()
         {
-            _selectedContact.Emails.Add(new Email() { EmailAddr = $"testing@example.com" });
-            _service.Add(_selectedContact);
-            ContactList.Add(_selectedContact);
-            StatusString = "Contact successfully added.";
+            if (_selectedContact.Id < 0)
+            {
+                if (_service.Add(_selectedContact))
+                {
+                    ContactList.Add(_selectedContact);
+                    StatusString = "Contact successfully added.";
+                }
+                else
+                    StatusString = "Contact failed to save. Please check the contact information for any errors.";
+            }
+            else
+            {
+                _service.Update(_selectedContact);
+                StatusString = "Contact successfully edited.";
+            }
+
             IsEditing = false;
         }
 
         public void CancelContactChanges()
         {
+            if (_selectedContact.Id < 0)
+            {
+                SelectedContactIndex = -1;
+            }
+            else
+            {
+                _service.Reload(_selectedContact);
+                int index = _selectedContactIndex;
+                var list = _contactList;
+                ContactList = null;
+                ContactList = list;
+                SelectedContactIndex = index;
+            }
 
+            IsEditing = false;
         }
 
         #region UIProperties
