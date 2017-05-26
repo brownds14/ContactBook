@@ -18,9 +18,11 @@ namespace ContactBook.UI.WPFApp.ViewModel
         private string _statusString;
         private bool _isEditing;
 
+        private int _selectedAddressIndex;
         private int _selectedEmailIndex;
-        private int _selectedPhoneIndex;
         private int _selectedGroupIndex;
+        private int _selectedPhoneIndex;
+
 
         public ContactBookViewModel(IContactService service)
         {
@@ -39,9 +41,10 @@ namespace ContactBook.UI.WPFApp.ViewModel
             StatusString = "All contacts were successfully loaded.";
             IsEditing = false;
 
+            SelectedAddressIndex = -1;
             SelectedEmailIndex = -1;
-            SelectedPhoneIndex =-1;
             SelectedGroupIndex = -1;
+            SelectedPhoneIndex =-1;
 
             CmdAddContact = new RelayCommand(AddContact);
             CmdRemoveContact = new RelayCommand(RemoveContact);
@@ -49,14 +52,17 @@ namespace ContactBook.UI.WPFApp.ViewModel
             CmdSaveContact = new RelayCommand(SaveContact);
             CmdCancel = new RelayCommand(CancelContactChanges);
 
+            CmdAddAddress = new RelayCommand(AddAddress);
+            CmdDeleteAddress = new RelayCommand(DeleteAddress);
+
             CmdAddEmail = new RelayCommand(AddEmail);
             CmdDeleteEmail = new RelayCommand(DeleteEmail);
 
-            CmdAddPhone = new RelayCommand(AddPhone);
-            CmdDeletePhone = new RelayCommand(DeletePhone);
-
             CmdAddGroup = new RelayCommand(AddGroup);
             CmdDeleteGroup = new RelayCommand(DeleteGroup);
+
+            CmdAddPhone = new RelayCommand(AddPhone);
+            CmdDeletePhone = new RelayCommand(DeletePhone);
         }
 
         public void AddContact()
@@ -122,6 +128,21 @@ namespace ContactBook.UI.WPFApp.ViewModel
             IsEditing = false;
         }
 
+        public void AddAddress()
+        {
+            SelectedContact.Addresses.Add(new AddressModel());
+        }
+
+        public void DeleteAddress()
+        {
+            if (_selectedAddressIndex >= 0)
+            {
+                var e = SelectedContact.Addresses[_selectedAddressIndex];
+                _service.DeleteAddress(e.ToDomainAddress());
+                SelectedContact.Addresses.Remove(e);
+            }
+        }
+
         public void AddEmail()
         {
             SelectedContact.Emails.Add(new EmailModel());
@@ -134,21 +155,6 @@ namespace ContactBook.UI.WPFApp.ViewModel
                 var e = SelectedContact.Emails[_selectedEmailIndex];
                 _service.DeleteEmail(e.ToDomainEmail());
                 SelectedContact.Emails.Remove(e);
-            }
-        }
-
-        public void AddPhone()
-        {
-            SelectedContact.Phones.Add(new PhoneModel());
-        }
-
-        public void DeletePhone()
-        {
-            if (_selectedPhoneIndex >= 0)
-            {
-                var p = SelectedContact.Phones[_selectedPhoneIndex];
-                _service.DeletePhone(p.ToDomainPhone());
-                SelectedContact.Phones.Remove(p);
             }
         }
 
@@ -167,6 +173,21 @@ namespace ContactBook.UI.WPFApp.ViewModel
             }
         }
 
+        public void AddPhone()
+        {
+            SelectedContact.Phones.Add(new PhoneModel());
+        }
+
+        public void DeletePhone()
+        {
+            if (_selectedPhoneIndex >= 0)
+            {
+                var p = SelectedContact.Phones[_selectedPhoneIndex];
+                _service.DeletePhone(p.ToDomainPhone());
+                SelectedContact.Phones.Remove(p);
+            }
+        }
+
         #region UIProperties
         public ICommand CmdAddContact { get; private set; }
         public ICommand CmdRemoveContact { get; private set; }
@@ -174,14 +195,17 @@ namespace ContactBook.UI.WPFApp.ViewModel
         public ICommand CmdSaveContact { get; private set; }
         public ICommand CmdCancel { get; private set; }
 
+        public ICommand CmdAddAddress { get; private set; }
+        public ICommand CmdDeleteAddress { get; private set; }
+
         public ICommand CmdAddEmail { get; private set; }
         public ICommand CmdDeleteEmail { get; private set; }
 
-        public ICommand CmdAddPhone { get; private set; }
-        public ICommand CmdDeletePhone { get; private set; }
-
         public ICommand CmdAddGroup { get; private set; }
         public ICommand CmdDeleteGroup { get; private set; }
+
+        public ICommand CmdAddPhone { get; private set; }
+        public ICommand CmdDeletePhone { get; private set; }
 
         public ObservableCollection<ContactModel> ContactList
         {
@@ -226,6 +250,12 @@ namespace ContactBook.UI.WPFApp.ViewModel
         {
             get { return _isEditing; }
             set { Set(() => IsEditing, ref _isEditing, value); }
+        }
+
+        public int SelectedAddressIndex
+        {
+            get { return _selectedAddressIndex; }
+            set { Set(() => SelectedAddressIndex, ref _selectedAddressIndex, value); }
         }
 
         public int SelectedEmailIndex

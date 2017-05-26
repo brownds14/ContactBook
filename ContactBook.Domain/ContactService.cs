@@ -28,6 +28,11 @@ namespace ContactBook.Domain
                 return false;
         }
 
+        public void DeleteAddress(Address a)
+        {
+            _unit.Addresses.Remove(a);
+        }
+
         public void DeleteEmail(Email e)
         {
             _unit.Emails.Remove(e);

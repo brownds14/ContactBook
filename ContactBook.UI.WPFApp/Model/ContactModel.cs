@@ -1,16 +1,14 @@
 ﻿using ContactBook.Domain;
 using GalaSoft.MvvmLight;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Collections.Specialized;
-using System.Collections;
 
 namespace ContactBook.UI.WPFApp.Model
 {
     public class ContactModel : ObservableObject
     {
         private Contact _contact;
-        private ObservableCollection<Address> _addresses;
+        private ObservableCollection<AddressModel> _addresses;
         private ObservableCollection<EmailModel> _emails;
         private ObservableCollection<GroupModel> _groups;
         private ObservableCollection<PhoneModel> _phones;
@@ -25,6 +23,13 @@ namespace ContactBook.UI.WPFApp.Model
         public ContactModel(Contact c)
         {
             _contact = c;
+
+            Addresses = new ObservableCollection<AddressModel>();
+            foreach (var e in c.Addresses)
+            {
+                Addresses.Add(new AddressModel(e));
+            }
+            Addresses.CollectionChanged += Addresses_CollectionChanged;
 
             Emails = new ObservableCollection<EmailModel>();
             foreach (var e in c.Emails)
@@ -76,6 +81,20 @@ namespace ContactBook.UI.WPFApp.Model
                 RaisePropertyChanged(collection);
         }
 
+        private void Addresses_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            CollectionFunc add = (x) => _contact.Addresses.Add(((AddressModel)x).ToDomainAddress());
+            CollectionFunc remove = (x) => _contact.Addresses.Remove(((AddressModel)x).ToDomainAddress());
+            CollectionChanged(e, "Addresses", add, remove);
+        }
+
+        private void Emails_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            CollectionFunc add = (x) => _contact.Emails.Add(((EmailModel)x).ToDomainEmail());
+            CollectionFunc remove = (x) => _contact.Emails.Remove(((EmailModel)x).ToDomainEmail());
+            CollectionChanged(e, "Emails", add, remove);
+        }
+
         private void Groups_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             CollectionFunc add = (x) => _contact.Groups.Add(((GroupModel)x).ToDomainGroup());
@@ -88,13 +107,6 @@ namespace ContactBook.UI.WPFApp.Model
             CollectionFunc add = (x) => _contact.Phones.Add(((PhoneModel)x).ToDomainPhone());
             CollectionFunc remove = (x) => _contact.Phones.Remove(((PhoneModel)x).ToDomainPhone());
             CollectionChanged(e, "Phones", add, remove);
-        }
-
-        private void Emails_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            CollectionFunc add = (x) => _contact.Emails.Add(((EmailModel)x).ToDomainEmail());
-            CollectionFunc remove = (x) => _contact.Emails.Remove(((EmailModel)x).ToDomainEmail());
-            CollectionChanged(e, "Emails", add, remove);
         }
         #endregion
 
@@ -149,11 +161,15 @@ namespace ContactBook.UI.WPFApp.Model
             }
         }
 
-        //public ObservableCollection<Address> Addresses
-        //{
-        //    get { return  }
-        //    set { Set(() => Addresses, ref _addresses, value); }
-        //}
+        public ObservableCollection<AddressModel> Addresses
+        {
+            get { return _addresses; }
+            set
+            {
+                _addresses = value;
+                RaisePropertyChanged("Addresses");
+            }
+        }
 
         public ObservableCollection<EmailModel> Emails
         {

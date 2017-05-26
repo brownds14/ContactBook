@@ -186,9 +186,35 @@
             </GroupBox>
 
             <GroupBox Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3" Header="Addresses">
-                <DockPanel>
-                    <Label Content="Addresses" />
-                </DockPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <DataGrid Grid.Row="0" Grid.Column="0"
+                              ItemsSource="{Binding SelectedContact.Addresses}"
+                              SelectedIndex="{Binding SelectedAddressIndex}"
+                              AutoGenerateColumns="False" 
+                              GridLinesVisibility="None" 
+                              HeadersVisibility="None" 
+                              CanUserAddRows="False" 
+                              SelectionMode="Single"
+                              IsEnabled="{Binding IsEditing}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Width="*" Binding="{Binding Line1}" />
+                            <DataGridTextColumn Width="*" Binding="{Binding Line2}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+                        <Button Content="Add Address.." Command="{Binding CmdAddAddress}" Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}}" />
+                        <Button Content="Delete Address.." Command="{Binding CmdDeleteAddress}" Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}}" />
+                    </StackPanel>
+                </Grid>
             </GroupBox>
 
             <StackPanel Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Vertical">
