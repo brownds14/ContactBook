@@ -13,6 +13,7 @@
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
         <convert:InverseBoolToVisibilityConverter x:Key="NotBoolToVis" />
+        <convert:InverseBoolConverter x:Key="NotBool" />
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -31,7 +32,7 @@
 
         <!--Toolbar-->
         <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal">
-            <Button Content="Add Contact" Command="{Binding CmdAddContact}" />
+            <Button Content="Add Contact" Command="{Binding CmdAddContact}" IsEnabled="{Binding IsEditing, Converter={StaticResource NotBool}}"/>
             <Button Content="Remove Contact" Command="{Binding CmdRemoveContact}" />
         </StackPanel>
 
@@ -40,7 +41,7 @@
         <TextBlock Grid.Row="1" Grid.Column="2" Text="Contact Info" HorizontalAlignment="Center" />
 
         <!--Contact List-->
-        <ListView Grid.Row="2" Grid.Column="0" Grid.RowSpan="2" ItemsSource="{Binding ContactList}" SelectedIndex="{Binding SelectedContactIndex}">
+        <ListView Grid.Row="2" Grid.Column="0" Grid.RowSpan="2" ItemsSource="{Binding ContactList}" SelectedIndex="{Binding SelectedContactIndex}" IsEnabled="{Binding IsEditing, Converter={StaticResource NotBool}}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="First Name" DisplayMemberBinding="{Binding FirstName}" />

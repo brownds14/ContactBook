@@ -122,12 +122,18 @@ namespace ContactBook.UI.WPFApp.ViewModel
             else
             {
                 Contact c = _selectedContact.ToDomainContact();
+                int index = _selectedContactIndex;
                 _service.Reload(c);
+                ContactList.Insert(_selectedContactIndex, new ContactModel(c));
+                ContactList.RemoveAt(_selectedContactIndex);
+                SelectedContactIndex = index;
+                StatusString = "Changes were reverted.";
             }
 
             IsEditing = false;
         }
 
+        #region Add/Remove Collection Info
         public void AddAddress()
         {
             SelectedContact.Addresses.Add(new AddressModel());
@@ -187,6 +193,7 @@ namespace ContactBook.UI.WPFApp.ViewModel
                 SelectedContact.Phones.Remove(p);
             }
         }
+        #endregion
 
         #region UIProperties
         public ICommand CmdAddContact { get; private set; }

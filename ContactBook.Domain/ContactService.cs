@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Linq;
 
 namespace ContactBook.Domain
 {
@@ -65,6 +67,30 @@ namespace ContactBook.Domain
 
         public void Reload(Contact c)
         {
+            ((List<Address>)c.Addresses).RemoveAll(a => a.Id == -1);
+            foreach (var a in c.Addresses)
+            {
+                _unit.Addresses.Reload(a);
+            }
+
+            ((List<Email>)c.Emails).RemoveAll(e => e.Id == -1);
+            foreach (var e in c.Emails)
+            {
+                _unit.Emails.Reload(e);
+            }
+
+            ((List<Group>)c.Groups).RemoveAll(g => g.Id == -1);
+            foreach (var g in c.Groups)
+            {
+                _unit.Groups.Reload(g);
+            }
+
+            ((List<Phone>)c.Phones).RemoveAll(p => p.Id == -1);
+            foreach (var p in c.Phones)
+            {
+                _unit.Phones.Reload(p);
+            }
+
             _unit.Contacts.Reload(c);
         }
 

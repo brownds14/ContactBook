@@ -74,6 +74,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\InverseBoolConverter.cs" />
     <Compile Include="Converters\InverseBoolToVisibilityConverter.cs" />
     <Compile Include="Model\AddressModel.cs" />
     <Compile Include="Model\ContactModel.cs" />
