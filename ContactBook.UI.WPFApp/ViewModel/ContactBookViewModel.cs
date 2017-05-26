@@ -17,7 +17,6 @@ namespace ContactBook.UI.WPFApp.ViewModel
         private string _searchString;
         private string _statusString;
         private bool _isEditing;
-        private ObservableCollection<string> _phoneTypes;
 
         private int _selectedEmailIndex;
         private int _selectedPhoneIndex;
@@ -39,10 +38,8 @@ namespace ContactBook.UI.WPFApp.ViewModel
             StatusString = "All contacts were successfully loaded.";
             IsEditing = false;
 
-            _phoneTypes = new ObservableCollection<string>(Enum.GetNames(typeof(PhoneType)));
-
             SelectedEmailIndex = -1;
-            SelectedPhoneIndex = -1;
+            SelectedPhoneIndex =-1;
 
             CmdAddContact = new RelayCommand(AddContact);
             CmdRemoveContact = new RelayCommand(RemoveContact);
@@ -206,11 +203,6 @@ namespace ContactBook.UI.WPFApp.ViewModel
         {
             get { return _isEditing; }
             set { Set(() => IsEditing, ref _isEditing, value); }
-        }
-
-        public ObservableCollection<string> PhoneTypes
-        {
-            get { return _phoneTypes; }
         }
 
         public int SelectedEmailIndex

@@ -108,12 +108,13 @@
                               GridLinesVisibility="None" 
                               HeadersVisibility="None" 
                               CanUserAddRows="False" 
-                              SelectionMode="Single">
+                              SelectionMode="Single"
+                              IsEnabled="{Binding IsEditing}">
                         <DataGrid.Columns>
                             <DataGridTemplateColumn>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <ComboBox ItemsSource="{Binding PhoneTypes}"/>
+                                        <ComboBox ItemsSource="{Binding TypeList}" SelectedIndex="{Binding Type}" IsEnabled="{Binding IsEditing}"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
@@ -145,7 +146,8 @@
                               GridLinesVisibility="None" 
                               HeadersVisibility="None" 
                               CanUserAddRows="False" 
-                              SelectionMode="Single">
+                              SelectionMode="Single"
+                              IsEnabled="{Binding IsEditing}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Width="*" Binding="{Binding EmailAddr}" />
                         </DataGrid.Columns>

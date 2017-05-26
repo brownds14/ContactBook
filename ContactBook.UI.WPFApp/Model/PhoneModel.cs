@@ -1,11 +1,13 @@
 ﻿using ContactBook.Domain;
 using GalaSoft.MvvmLight;
+using System;
 
 namespace ContactBook.UI.WPFApp.Model
 {
     public class PhoneModel : ObservableObject
     {
         private Phone _phone;
+        private static string[] _typeList = Enum.GetNames(typeof(PhoneType));
 
         public PhoneModel()
             : this(new Phone())
@@ -37,14 +39,19 @@ namespace ContactBook.UI.WPFApp.Model
             }
         }
 
-        public PhoneType Type
+        public int Type
         {
-            get { return _phone.Type; }
+            get { return (int)_phone.Type; }
             set
             {
-                _phone.Type = value;
+                _phone.Type = (PhoneType)value;
                 RaisePropertyChanged("Type");
             }
+        }
+
+        public string[] TypeList
+        {
+            get { return _typeList; }
         }
 
         public Phone ToDomainPhone()
