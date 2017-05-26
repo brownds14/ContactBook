@@ -20,6 +20,7 @@ namespace ContactBook.UI.WPFApp.ViewModel
 
         private int _selectedEmailIndex;
         private int _selectedPhoneIndex;
+        private int _selectedGroupIndex;
 
         public ContactBookViewModel(IContactService service)
         {
@@ -40,6 +41,7 @@ namespace ContactBook.UI.WPFApp.ViewModel
 
             SelectedEmailIndex = -1;
             SelectedPhoneIndex =-1;
+            SelectedGroupIndex = -1;
 
             CmdAddContact = new RelayCommand(AddContact);
             CmdRemoveContact = new RelayCommand(RemoveContact);
@@ -52,6 +54,9 @@ namespace ContactBook.UI.WPFApp.ViewModel
 
             CmdAddPhone = new RelayCommand(AddPhone);
             CmdDeletePhone = new RelayCommand(DeletePhone);
+
+            CmdAddGroup = new RelayCommand(AddGroup);
+            CmdDeleteGroup = new RelayCommand(DeleteGroup);
         }
 
         public void AddContact()
@@ -147,6 +152,21 @@ namespace ContactBook.UI.WPFApp.ViewModel
             }
         }
 
+        public void AddGroup()
+        {
+            SelectedContact.Groups.Add(new GroupModel());
+        }
+
+        public void DeleteGroup()
+        {
+            if (_selectedGroupIndex >= 0)
+            {
+                var p = SelectedContact.Groups[_selectedGroupIndex];
+                _service.DeleteGroup(p.ToDomainGroup());
+                SelectedContact.Groups.Remove(p);
+            }
+        }
+
         #region UIProperties
         public ICommand CmdAddContact { get; private set; }
         public ICommand CmdRemoveContact { get; private set; }
@@ -159,6 +179,9 @@ namespace ContactBook.UI.WPFApp.ViewModel
 
         public ICommand CmdAddPhone { get; private set; }
         public ICommand CmdDeletePhone { get; private set; }
+
+        public ICommand CmdAddGroup { get; private set; }
+        public ICommand CmdDeleteGroup { get; private set; }
 
         public ObservableCollection<ContactModel> ContactList
         {
@@ -209,6 +232,12 @@ namespace ContactBook.UI.WPFApp.ViewModel
         {
             get { return _selectedEmailIndex; }
             set { Set(() => SelectedEmailIndex, ref _selectedEmailIndex, value); }
+        }
+
+        public int SelectedGroupIndex
+        {
+            get { return _selectedGroupIndex; }
+            set { Set(() => SelectedGroupIndex, ref _selectedGroupIndex, value); }
         }
 
         public int SelectedPhoneIndex

@@ -15,5 +15,6 @@ namespace ContactBook.Domain
         void Reload(Contact c);
         void DeleteEmail(Email e);
         void DeletePhone(Phone p);
+        void DeleteGroup(Group g);
     }
 }

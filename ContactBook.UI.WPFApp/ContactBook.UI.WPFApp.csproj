@@ -77,6 +77,7 @@
     <Compile Include="Converters\InverseBoolToVisibilityConverter.cs" />
     <Compile Include="Model\ContactModel.cs" />
     <Compile Include="Model\EmailModel.cs" />
+    <Compile Include="Model\GroupModel.cs" />
     <Compile Include="Model\PhoneModel.cs" />
     <Compile Include="ViewModel\ContactBookViewModel.cs" />
   </ItemGroup>

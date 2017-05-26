@@ -33,6 +33,11 @@ namespace ContactBook.Domain
             _unit.Emails.Remove(e);
         }
 
+        public void DeleteGroup(Group g)
+        {
+            _unit.Groups.Remove(g);
+        }
+
         public void DeletePhone(Phone p)
         {
             _unit.Phones.Remove(p);
