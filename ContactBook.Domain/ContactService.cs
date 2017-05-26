@@ -28,6 +28,16 @@ namespace ContactBook.Domain
                 return false;
         }
 
+        public void DeleteEmail(Email e)
+        {
+            _unit.Emails.Remove(e);
+        }
+
+        public void DeletePhone(Phone p)
+        {
+            _unit.Phones.Remove(p);
+        }
+
         public IEnumerable<Contact> Find(Expression<Func<Contact, bool>> pred)
         {
             return _unit.Contacts.Find(pred);

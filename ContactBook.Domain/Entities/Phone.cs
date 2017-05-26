@@ -13,6 +13,13 @@
         //Decreasing MaxLengths will create issues with existing data 
         public static readonly int NumberMaxLength = 10;
 
+        public Phone()
+        {
+            Id = -1;
+            Number = string.Empty;
+            Type = PhoneType.Mobile;
+        }
+
         public int Id { get; set; }
         public string Number { get; set; }
         public PhoneType Type { get; set; }

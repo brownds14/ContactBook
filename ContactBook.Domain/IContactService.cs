@@ -13,5 +13,7 @@ namespace ContactBook.Domain
         Contact Get(int id);
         void Update(Contact c);
         void Reload(Contact c);
+        void DeleteEmail(Email e);
+        void DeletePhone(Phone p);
     }
 }
