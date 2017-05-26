@@ -1,9 +1,9 @@
 ﻿using ContactBook.Domain;
 using GalaSoft.MvvmLight;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Collections.Specialized;
+using System.Collections;
 
 namespace ContactBook.UI.WPFApp.Model
 {
@@ -14,6 +14,8 @@ namespace ContactBook.UI.WPFApp.Model
         private ObservableCollection<EmailModel> _emails;
         private ObservableCollection<GroupModel> _groups;
         private ObservableCollection<PhoneModel> _phones;
+
+        private delegate void CollectionFunc(object obj);
 
         public ContactModel()
             : this(new Contact())
@@ -46,75 +48,57 @@ namespace ContactBook.UI.WPFApp.Model
             Phones.CollectionChanged += Phones_CollectionChanged;
         }
 
-        private void Groups_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        #region CollectionChanged Methods
+        private void CollectionChanged(NotifyCollectionChangedEventArgs e, string collection, CollectionFunc add, CollectionFunc remove)
         {
+            bool raiseChange = false;
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    foreach (var group in e.NewItems.Cast<GroupModel>())
+                    foreach (var x in e.NewItems)
                     {
-                        _contact.Groups.Add(group.ToDomainGroup());
+                        add(x);
                     }
-                    RaisePropertyChanged("Groups");
+                    raiseChange = true;
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    foreach (var group in e.OldItems.Cast<GroupModel>())
+                    foreach (var x in e.OldItems)
                     {
-                        _contact.Groups.Remove(group.ToDomainGroup());
+                        remove(x);
                     }
-                    RaisePropertyChanged("Groups");
+                    raiseChange = true;
                     break;
                 default:
                     break;
             }
+
+            if (raiseChange)
+                RaisePropertyChanged(collection);
+        }
+
+        private void Groups_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            CollectionFunc add = (x) => _contact.Groups.Add(((GroupModel)x).ToDomainGroup());
+            CollectionFunc remove = (x) => _contact.Groups.Remove(((GroupModel)x).ToDomainGroup());
+            CollectionChanged(e, "Groups", add, remove);
         }
 
         private void Phones_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            switch (e.Action)
-            {
-                case NotifyCollectionChangedAction.Add:
-                    foreach (var phone in e.NewItems.Cast<PhoneModel>())
-                    {
-                        _contact.Phones.Add(phone.ToDomainPhone());
-                    }
-                    RaisePropertyChanged("Phones");
-                    break;
-                case NotifyCollectionChangedAction.Remove:
-                    foreach (var phone in e.OldItems.Cast<PhoneModel>())
-                    {
-                        _contact.Phones.Remove(phone.ToDomainPhone());
-                    }
-                    RaisePropertyChanged("Phones");
-                    break;
-                default:
-                    break;
-            }
+            CollectionFunc add = (x) => _contact.Phones.Add(((PhoneModel)x).ToDomainPhone());
+            CollectionFunc remove = (x) => _contact.Phones.Remove(((PhoneModel)x).ToDomainPhone());
+            CollectionChanged(e, "Phones", add, remove);
         }
 
         private void Emails_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            switch (e.Action)
-            {
-                case NotifyCollectionChangedAction.Add:
-                    foreach (var email in e.NewItems.Cast<EmailModel>())
-                    {
-                        _contact.Emails.Add(email.ToDomainEmail());
-                    }
-                    RaisePropertyChanged("Emails");
-                    break;
-                case NotifyCollectionChangedAction.Remove:
-                    foreach (var email in e.OldItems.Cast<EmailModel>())
-                    {
-                        _contact.Emails.Remove(email.ToDomainEmail());
-                    }
-                    RaisePropertyChanged("Emails");
-                    break;
-                default:
-                    break;
-            }
+            CollectionFunc add = (x) => _contact.Emails.Add(((EmailModel)x).ToDomainEmail());
+            CollectionFunc remove = (x) => _contact.Emails.Remove(((EmailModel)x).ToDomainEmail());
+            CollectionChanged(e, "Emails", add, remove);
         }
+        #endregion
 
+        #region Wrapped Properties
         public int Id
         {
             get { return _contact.Id; }
@@ -200,6 +184,7 @@ namespace ContactBook.UI.WPFApp.Model
                 RaisePropertyChanged("Phones");
             }
         }
+        #endregion
 
         public Contact ToDomainContact()
         {
