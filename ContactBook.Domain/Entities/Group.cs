@@ -15,5 +15,15 @@
         public string GroupName { get; set; }
 
         public virtual Contact Contact { get; set; }
+
+        public bool IsValidGroup()
+        {
+            return ValidGroupName();
+        }
+
+        public bool ValidGroupName()
+        {
+            return GroupName.Length <= GroupNameMaxLength;
+        }
     }
 }

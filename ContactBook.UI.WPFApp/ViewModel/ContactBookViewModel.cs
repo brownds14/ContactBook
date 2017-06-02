@@ -5,6 +5,9 @@ using System;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 using ContactBook.UI.WPFApp.Model;
+using System.ComponentModel;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace ContactBook.UI.WPFApp.ViewModel
 {
@@ -22,7 +25,6 @@ namespace ContactBook.UI.WPFApp.ViewModel
         private int _selectedEmailIndex;
         private int _selectedGroupIndex;
         private int _selectedPhoneIndex;
-
 
         public ContactBookViewModel(IContactService service)
         {
@@ -81,6 +83,7 @@ namespace ContactBook.UI.WPFApp.ViewModel
                 ContactList.Remove(SelectedContact);
                 SelectedContactIndex = -1;
                 StatusString = "Contact successfully removed.";
+                IsEditing = false;
             }
             else
                 StatusString = "Failed to remove contact.";

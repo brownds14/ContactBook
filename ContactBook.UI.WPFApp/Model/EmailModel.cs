@@ -1,9 +1,8 @@
 ﻿using ContactBook.Domain;
-using GalaSoft.MvvmLight;
 
 namespace ContactBook.UI.WPFApp.Model
 {
-    public class EmailModel : ObservableObject
+    public class EmailModel : NotifyErrors
     {
         private Email _email;
 
@@ -17,23 +16,18 @@ namespace ContactBook.UI.WPFApp.Model
             _email = e;
         }
 
-        public int Id
-        {
-            get { return _email.Id; }
-            set
-            {
-                _email.Id = value;
-                RaisePropertyChanged("Id");
-            }
-        }
-
         public string EmailAddr
         {
             get { return _email.EmailAddr; }
             set
             {
+                string prop = "EmailAddr";
+                string msg = $"Email address must be less than {Email.EmailAddrMaxLength} characters.";
+                string msg2 = "Email does not appear to be a valid format.";
                 _email.EmailAddr = value;
-                RaisePropertyChanged("EmailAddr");
+
+                ChangeError(() => _email.ValidEmailAddrLength(), prop, msg);
+                ChangeError(() => _email.ValidEmailAddr(), prop, msg2);
             }
         }
 

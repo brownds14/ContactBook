@@ -1,11 +1,10 @@
 ﻿using ContactBook.Domain;
-using GalaSoft.MvvmLight;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
 namespace ContactBook.UI.WPFApp.Model
 {
-    public class ContactModel : ObservableObject
+    public class ContactModel : NotifyErrors
     {
         private Contact _contact;
         private ObservableCollection<AddressModel> _addresses;
@@ -126,8 +125,10 @@ namespace ContactBook.UI.WPFApp.Model
             get { return _contact.FirstName; }
             set
             {
+                string prop = "FirstName";
+                string msg = $"First name must be less than {Contact.FirstNameMaxLength} characters.";
                 _contact.FirstName = value;
-                RaisePropertyChanged("FirstName");
+                ChangeError(() => _contact.ValidFirstName(), prop, msg);
             }
         }
 
@@ -136,8 +137,10 @@ namespace ContactBook.UI.WPFApp.Model
             get { return _contact.MiddleName; }
             set
             {
+                string prop = "MiddleName";
+                string msg = $"Middle name must be less than {Contact.MiddleNameMaxLength} characters.";
                 _contact.MiddleName = value;
-                RaisePropertyChanged("MiddleName");
+                ChangeError(() => _contact.ValidMiddleName(), prop, msg);
             }
         }
 
@@ -146,8 +149,9 @@ namespace ContactBook.UI.WPFApp.Model
             get { return _contact.LastName; }
             set
             {
-                _contact.LastName = value;
-                RaisePropertyChanged("LastName");
+                string prop = "LastName";
+                string msg = $"Last name must be less than {Contact.LastNameMaxLength} characters.";
+                ChangeError(() => _contact.ValidLastName(), prop, msg);
             }
         }
 
@@ -156,8 +160,10 @@ namespace ContactBook.UI.WPFApp.Model
             get { return _contact.Notes; }
             set
             {
+                string prop = "Notes";
+                string msg = $"Notes must be less than {Contact.NotesMaxLength} characters.";
                 _contact.Notes = value;
-                RaisePropertyChanged("Notes");
+                ChangeError(() => _contact.ValidNotes(), prop, msg);
             }
         }
 

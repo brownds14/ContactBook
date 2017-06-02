@@ -1,4 +1,6 @@
-﻿namespace ContactBook.Domain
+﻿using System.Text.RegularExpressions;
+
+namespace ContactBook.Domain
 {
     public enum PhoneType
     {
@@ -12,6 +14,8 @@
     {
         //Decreasing MaxLengths will create issues with existing data 
         public static readonly int NumberMaxLength = 10;
+        private static readonly string _phoneRegex = "^[0-9]+$";
+        private static Regex _reg = new Regex(_phoneRegex);
 
         public Phone()
         {
@@ -25,5 +29,20 @@
         public PhoneType Type { get; set; }
 
         public virtual Contact Contact { get; set; }
+
+        public bool IsValidPhone()
+        {
+            return ValidNumberLength() && ValidPhoneNumber();
+        }
+
+        public bool ValidNumberLength()
+        {
+            return Number.Length <= NumberMaxLength;
+        }
+
+        public bool ValidPhoneNumber()
+        {
+            return _reg.IsMatch(Number);
+        }
     }
 }

@@ -1,10 +1,9 @@
 ﻿using ContactBook.Domain;
-using GalaSoft.MvvmLight;
 using System;
 
 namespace ContactBook.UI.WPFApp.Model
 {
-    public class PhoneModel : ObservableObject
+    public class PhoneModel : NotifyErrors
     {
         private Phone _phone;
         private static string[] _typeList = Enum.GetNames(typeof(PhoneType));
@@ -19,23 +18,17 @@ namespace ContactBook.UI.WPFApp.Model
             _phone = p;
         }
 
-        public int Id
-        {
-            get { return _phone.Id; }
-            set
-            {
-                _phone.Id = value;
-                RaisePropertyChanged("Id");
-            }
-        }
-
         public string Number
         {
             get { return _phone.Number; }
             set
             {
+                string prop = "Number";
+                string msg = $"Phone number must be less than {Phone.NumberMaxLength} characters.";
+                string msg2 = "Phone number must consist of only numbers 0-9.";
                 _phone.Number = value;
-                RaisePropertyChanged("Number");
+                ChangeError(() => _phone.ValidNumberLength(), prop, msg);
+                ChangeError(() => _phone.ValidPhoneNumber(), prop, msg2);
             }
         }
 

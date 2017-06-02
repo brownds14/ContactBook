@@ -18,14 +18,11 @@ namespace ContactBook.Domain
             LastName = string.Empty;
             Notes = string.Empty;
 
-            Errors = new Dictionary<string, string>();
             Addresses = new List<Address>();
             Emails = new List<Email>();
             Groups = new List<Group>();
             Phones = new List<Phone>();
         }
-
-        public Dictionary<string, string> Errors { get; private set; }
 
         public int Id { get; set; }
         public string FirstName { get; set; }
@@ -38,86 +35,52 @@ namespace ContactBook.Domain
         public virtual ICollection<Group> Groups { get; set; }
         public virtual ICollection<Phone> Phones { get; set; }
 
-        private void AddError(string key, string value)
-        {
-            if (!Errors.ContainsKey(key))
-                Errors.Add(key, value);
-        }
-
-        private void RemoveError(string key)
-        {
-            if (Errors.ContainsKey(key))
-                Errors.Remove(key);
-        }
-
-        public void ValidateContact()
-        {
-            ValidateFirstName();
-            ValidateMiddleName();
-            ValidateLastName();
-            ValidateNotes();
-        }
-
+        #region Validation
         public bool IsValidContact()
         {
-            ValidateContact();
-            return Errors.Count == 0;
+            bool valid = true;
+            valid =  ValidFirstName() && 
+                ValidMiddleName() &&
+                ValidLastName() &&
+                ValidNotes();
+
+            if (!valid)
+                return valid;
+
+            foreach (var a in Addresses)
+            {
+                if (!a.IsValidAddress())
+                    return false;
+            }
+
+            foreach (var e in Emails)
+            {
+                if (!e.IsValidEmail())
+                    return false;
+            }
+
+            return valid;
         }
 
-        public bool ValidateFirstName()
+        public bool ValidFirstName()
         {
-            if (FirstName.Length <= FirstNameMaxLength)
-            {
-                RemoveError("FirstName");
-                return true;
-            }
-            else
-            {
-                AddError("FirstName", $"First name needs to be less than {FirstNameMaxLength} characters");
-                return false;
-            }
+            return FirstName.Length <= FirstNameMaxLength;
         }
 
-        public bool ValidateMiddleName()
+        public bool ValidMiddleName()
         {
-            if (MiddleName.Length <= MiddleNameMaxLength)
-            {
-                RemoveError("MiddleName");
-                return true;
-            }
-            else
-            {
-                AddError("MiddleName", $"Middle name needs to be less than {MiddleNameMaxLength} characters");
-                return false;
-            }
+            return MiddleName.Length <= MiddleNameMaxLength;
         }
 
-        public bool ValidateLastName()
+        public bool ValidLastName()
         {
-            if (LastName.Length <= LastNameMaxLength)
-            {
-                RemoveError("LastName");
-                return true;
-            }
-            else
-            {
-                AddError("LastName", $"Last name needs to be less than {LastNameMaxLength} characters");
-                return false;
-            }
+            return LastName.Length <= LastNameMaxLength;
         }
 
-        public bool ValidateNotes()
+        public bool ValidNotes()
         {
-            if (Notes.Length <= NotesMaxLength)
-            {
-                RemoveError("Notes");
-                return true;
-            }
-            else
-            {
-                AddError("Notes", $"Notes needs to be less than {NotesMaxLength} characters");
-                return false;
-            }
+            return Notes.Length <= NotesMaxLength;
         }
+        #endregion
     }
 }

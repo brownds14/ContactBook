@@ -1,9 +1,8 @@
 ﻿using ContactBook.Domain;
-using GalaSoft.MvvmLight;
 
 namespace ContactBook.UI.WPFApp.Model
 {
-    public class AddressModel : ObservableObject
+    public class AddressModel : NotifyErrors
     {
         private Address _address;
 
@@ -17,23 +16,15 @@ namespace ContactBook.UI.WPFApp.Model
             _address = address;
         }
 
-        public int Id
-        {
-            get { return _address.Id; }
-            set
-            {
-                _address.Id = value;
-                RaisePropertyChanged("Id");
-            }
-        }
-
         public string Line1
         {
             get { return _address.Line1; }
             set
             {
+                string prop = "Line1";
+                string msg = $"Address line 1 must be less than {Address.Line1MaxLength} characters.";
                 _address.Line1 = value;
-                RaisePropertyChanged("Line1");
+                ChangeError(() => _address.ValidLine1(), prop, msg);
             }
         }
 
@@ -42,8 +33,10 @@ namespace ContactBook.UI.WPFApp.Model
             get { return _address.Line2; }
             set
             {
+                string prop = "Line2";
+                string msg = $"Address line 2 must be less than {Address.Line2MaxLength} characters.";
                 _address.Line2 = value;
-                RaisePropertyChanged("Line2");
+                ChangeError(() => _address.ValidLine2(), prop, msg);
             }
         }
 

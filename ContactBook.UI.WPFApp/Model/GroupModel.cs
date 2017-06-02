@@ -1,9 +1,8 @@
 ﻿using ContactBook.Domain;
-using GalaSoft.MvvmLight;
 
 namespace ContactBook.UI.WPFApp.Model
 {
-    public class GroupModel : ObservableObject
+    public class GroupModel : NotifyErrors
     {
         private Group _group;
 
@@ -17,23 +16,15 @@ namespace ContactBook.UI.WPFApp.Model
             _group = g;
         }
 
-        public int Id
-        {
-            get { return _group.Id; }
-            set
-            {
-                _group.Id = value;
-                RaisePropertyChanged("Id");
-            }
-        }
-
         public string GroupName
         {
             get { return _group.GroupName; }
             set
             {
+                string prop = "GroupName";
+                string msg = $"The name of the group must be less than {Group.GroupNameMaxLength} characters.";
                 _group.GroupName = value;
-                RaisePropertyChanged("GroupName");
+                ChangeError(() => _group.ValidGroupName(), prop, msg);
             }
         }
 

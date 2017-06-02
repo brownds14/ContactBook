@@ -18,5 +18,22 @@
         public string Line2 { get; set; }
 
         public virtual Contact Contact { get; set; }
+
+        #region Validation
+        public bool IsValidAddress()
+        {
+            return ValidLine1() && ValidLine2();
+        }
+
+        public bool ValidLine1()
+        {
+            return Line1.Length <= Line1MaxLength;
+        }
+
+        public bool ValidLine2()
+        {
+            return Line2.Length <= Line2MaxLength;
+        }
+        #endregion
     }
 }

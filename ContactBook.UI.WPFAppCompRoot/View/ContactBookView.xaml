@@ -14,7 +14,25 @@
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
         <convert:InverseBoolToVisibilityConverter x:Key="NotBoolToVis" />
         <convert:InverseBoolConverter x:Key="NotBool" />
+        <Style x:Key="errorStyle" TargetType="{x:Type TextBox}">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError"
+                         Value="true">
+                    <Setter Property="ToolTip"
+                            Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+                        Path=(Validation.Errors)[0].ErrorContent}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="dataGridErrorStyle" TargetType="{x:Type TextBlock}">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="DataGridCell.ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -82,9 +100,9 @@
             <Label Grid.Row="0" Grid.Column="0" Content="First Name:" Grid.ColumnSpan="2" />
             <Label Grid.Row="1" Grid.Column="0" Content="Middle Name:" Grid.ColumnSpan="2" />
             <Label Grid.Row="2" Grid.Column="0" Content="Last Name:" Grid.ColumnSpan="2" />
-            <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding SelectedContact.FirstName}" IsEnabled="{Binding IsEditing}"/>
-            <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding SelectedContact.MiddleName}" IsEnabled="{Binding IsEditing}"/>
-            <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding SelectedContact.LastName}" IsEnabled="{Binding IsEditing}"/>
+            <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding SelectedContact.FirstName, ValidatesOnNotifyDataErrors=True}" IsEnabled="{Binding IsEditing}" Style="{StaticResource errorStyle}" />
+            <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding SelectedContact.MiddleName, ValidatesOnNotifyDataErrors=True}" IsEnabled="{Binding IsEditing}" Style="{StaticResource errorStyle}" />
+            <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding SelectedContact.LastName, ValidatesOnNotifyDataErrors=True}" IsEnabled="{Binding IsEditing}" Style="{StaticResource errorStyle}" />
 
             <GroupBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Header="Contact Groups">
                 <Grid>
@@ -106,7 +124,7 @@
                               SelectionMode="Single"
                               IsEnabled="{Binding IsEditing}">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Width="*" Binding="{Binding GroupName}" />
+                            <DataGridTextColumn Width="*" Binding="{Binding GroupName}" ElementStyle="{StaticResource dataGridErrorStyle}" />
                         </DataGrid.Columns>
                     </DataGrid>
 
@@ -144,7 +162,7 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridTextColumn Width="*" Binding="{Binding Number}" />
+                            <DataGridTextColumn Width="*" Binding="{Binding Number}" ElementStyle="{StaticResource dataGridErrorStyle}" />
                         </DataGrid.Columns>
                     </DataGrid>
 
@@ -168,14 +186,14 @@
                     <DataGrid Grid.Row="0" Grid.Column="0"
                               ItemsSource="{Binding SelectedContact.Emails}"
                               SelectedIndex="{Binding SelectedEmailIndex}"
-                              AutoGenerateColumns="False" 
-                              GridLinesVisibility="None" 
-                              HeadersVisibility="None" 
-                              CanUserAddRows="False" 
+                              AutoGenerateColumns="False"
+                              GridLinesVisibility="None"
+                              HeadersVisibility="None"
+                              CanUserAddRows="False"
                               SelectionMode="Single"
                               IsEnabled="{Binding IsEditing}">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Width="*" Binding="{Binding EmailAddr}" />
+                            <DataGridTextColumn Width="*" Binding="{Binding EmailAddr, ValidatesOnNotifyDataErrors=True}" ElementStyle="{StaticResource dataGridErrorStyle}" />
                         </DataGrid.Columns>
                     </DataGrid>
 
@@ -200,14 +218,14 @@
                               ItemsSource="{Binding SelectedContact.Addresses}"
                               SelectedIndex="{Binding SelectedAddressIndex}"
                               AutoGenerateColumns="False" 
-                              GridLinesVisibility="None" 
-                              HeadersVisibility="None" 
+                              GridLinesVisibility="Vertical" 
+                              HeadersVisibility="Column" 
                               CanUserAddRows="False" 
                               SelectionMode="Single"
                               IsEnabled="{Binding IsEditing}">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Width="*" Binding="{Binding Line1}" />
-                            <DataGridTextColumn Width="*" Binding="{Binding Line2}" />
+                            <DataGridTextColumn Width="*" Header="Line 1" Binding="{Binding Line1, ValidatesOnNotifyDataErrors=True}" ElementStyle="{StaticResource dataGridErrorStyle}" />
+                            <DataGridTextColumn Width="*" Header="Line 2" Binding="{Binding Line2, ValidatesOnNotifyDataErrors=True}" ElementStyle="{StaticResource dataGridErrorStyle}" />
                         </DataGrid.Columns>
                     </DataGrid>
 
@@ -220,13 +238,20 @@
 
             <StackPanel Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Vertical">
                 <Label Content="Notes" />
-                <wpfTool:RichTextBox IsEnabled="{Binding IsEditing, UpdateSourceTrigger=LostFocus}" Text="{Binding SelectedContact.Notes, UpdateSourceTrigger=LostFocus}">
+                <wpfTool:RichTextBox IsEnabled="{Binding IsEditing}" Text="{Binding SelectedContact.Notes, ValidatesOnNotifyDataErrors=True}">
                     <wpfTool:RichTextBox.TextFormatter>
                         <wpfTool:PlainTextFormatter />
                     </wpfTool:RichTextBox.TextFormatter>
                     <wpfTool:RichTextBox.Resources>
                         <Style TargetType="{x:Type Paragraph}">
                             <Setter Property="Margin" Value="0" />
+                        </Style>
+                        <Style TargetType="wpfTool:RichTextBox">
+                            <Style.Triggers>
+                                <Trigger Property="Validation.HasError" Value="true">
+                                    <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}" />
+                                </Trigger>
+                            </Style.Triggers>
                         </Style>
                     </wpfTool:RichTextBox.Resources>
                 </wpfTool:RichTextBox>
