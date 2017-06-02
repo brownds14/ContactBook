@@ -59,6 +59,18 @@ namespace ContactBook.Domain
                     return false;
             }
 
+            foreach (var g in Groups)
+            {
+                if (!g.IsValidGroup())
+                    return false;
+            }
+
+            foreach (var p in Phones)
+            {
+                if (!p.IsValidPhone())
+                    return false;
+            }
+
             return valid;
         }
 

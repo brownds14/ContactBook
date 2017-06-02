@@ -74,7 +74,7 @@
         <!--Contact info toolbar-->
         <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal">
             <Button Content="Edit" Command="{Binding CmdEditContact}" Visibility="{Binding IsEditing, Converter={StaticResource NotBoolToVis}}" />
-            <Button Content="Save" Command="{Binding CmdSaveContact}" Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}}" />
+            <Button Content="Save" Command="{Binding CmdSaveContact}" Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}}" IsEnabled="{Binding SaveEnabled}" />
             <Button Content="Cancel" Command="{Binding CmdCancel}" Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}}" />
         </StackPanel>
 

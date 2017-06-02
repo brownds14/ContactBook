@@ -5,9 +5,6 @@ using System;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 using ContactBook.UI.WPFApp.Model;
-using System.ComponentModel;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace ContactBook.UI.WPFApp.ViewModel
 {
@@ -20,6 +17,7 @@ namespace ContactBook.UI.WPFApp.ViewModel
         private string _searchString;
         private string _statusString;
         private bool _isEditing;
+        private bool _saveEnabled;
 
         private int _selectedAddressIndex;
         private int _selectedEmailIndex;
@@ -35,13 +33,16 @@ namespace ContactBook.UI.WPFApp.ViewModel
             ContactList = new ObservableCollection<ContactModel>();
             foreach (var c in _service.GetAll())
             {
-                ContactList.Add(new ContactModel(c));
+                var tmp = new ContactModel(c);
+                tmp.PropertyChanged += Contact_PropertyChanged;
+                ContactList.Add(tmp);
             }
             SelectedContactIndex = -1;
             SelectedContact = new ContactModel();
             SearchString = string.Empty;
             StatusString = "All contacts were successfully loaded.";
             IsEditing = false;
+            SaveEnabled = true;
 
             SelectedAddressIndex = -1;
             SelectedEmailIndex = -1;
@@ -67,10 +68,21 @@ namespace ContactBook.UI.WPFApp.ViewModel
             CmdDeletePhone = new RelayCommand(DeletePhone);
         }
 
+        private void Contact_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (sender is EmailModel)
+            {
+            }
+            SaveEnabled = SelectedContact.ToDomainContact().IsValidContact();
+        }
+
         public void AddContact()
         {
             SelectedContactIndex = -1;
-            SelectedContact = new ContactModel();
+            var newContact = new ContactModel();
+            newContact.PropertyChanged += Contact_PropertyChanged;
+            SelectedContact = newContact;
+
             IsEditing = true;
         }
 
@@ -80,6 +92,7 @@ namespace ContactBook.UI.WPFApp.ViewModel
             Contact c = _service.Get(id);
             if (_service.Remove(c))
             {
+                SelectedContact.PropertyChanged -= Contact_PropertyChanged;
                 ContactList.Remove(SelectedContact);
                 SelectedContactIndex = -1;
                 StatusString = "Contact successfully removed.";
@@ -127,7 +140,9 @@ namespace ContactBook.UI.WPFApp.ViewModel
                 Contact c = _selectedContact.ToDomainContact();
                 int index = _selectedContactIndex;
                 _service.Reload(c);
-                ContactList.Insert(_selectedContactIndex, new ContactModel(c));
+                var newContact = new ContactModel(c);
+                newContact.PropertyChanged += Contact_PropertyChanged;
+                ContactList.Insert(_selectedContactIndex, newContact);
                 ContactList.RemoveAt(_selectedContactIndex);
                 SelectedContactIndex = index;
                 StatusString = "Changes were reverted.";
@@ -260,6 +275,12 @@ namespace ContactBook.UI.WPFApp.ViewModel
         {
             get { return _isEditing; }
             set { Set(() => IsEditing, ref _isEditing, value); }
+        }
+
+        public bool SaveEnabled
+        {
+            get { return _saveEnabled; }
+            set { Set(() => SaveEnabled, ref _saveEnabled, value); }
         }
 
         public int SelectedAddressIndex

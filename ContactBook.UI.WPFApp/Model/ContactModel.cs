@@ -1,6 +1,7 @@
 ﻿using ContactBook.Domain;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 
 namespace ContactBook.UI.WPFApp.Model
 {
@@ -24,32 +25,45 @@ namespace ContactBook.UI.WPFApp.Model
             _contact = c;
 
             Addresses = new ObservableCollection<AddressModel>();
-            foreach (var e in c.Addresses)
+            foreach (var a in c.Addresses)
             {
-                Addresses.Add(new AddressModel(e));
+                var tmp = new AddressModel(a);
+                tmp.ErrorsChanged += ErrorsChangedHandler;
+                Addresses.Add(tmp);
             }
             Addresses.CollectionChanged += Addresses_CollectionChanged;
 
             Emails = new ObservableCollection<EmailModel>();
             foreach (var e in c.Emails)
             {
-                Emails.Add(new EmailModel(e));
+                var tmp = new EmailModel(e);
+                tmp.ErrorsChanged += ErrorsChangedHandler;
+                Emails.Add(tmp);
             }
             Emails.CollectionChanged += Emails_CollectionChanged;
 
             Groups = new ObservableCollection<GroupModel>();
             foreach (var g in c.Groups)
             {
-                Groups.Add(new GroupModel(g));
+                var tmp = new GroupModel(g);
+                tmp.ErrorsChanged += ErrorsChangedHandler;
+                Groups.Add(tmp);
             }
             Groups.CollectionChanged += Groups_CollectionChanged;
 
             Phones = new ObservableCollection<PhoneModel>();
             foreach (var p in c.Phones)
             {
-                Phones.Add(new PhoneModel(p));
+                var tmp = new PhoneModel(p);
+                tmp.ErrorsChanged += ErrorsChangedHandler;
+                Phones.Add(tmp);
             }
             Phones.CollectionChanged += Phones_CollectionChanged;
+        }
+
+        private void ErrorsChangedHandler(object sender, DataErrorsChangedEventArgs e)
+        {
+            RaisePropertyChanged("SaveEnabled");
         }
 
         #region CollectionChanged Methods
@@ -82,29 +96,61 @@ namespace ContactBook.UI.WPFApp.Model
 
         private void Addresses_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            CollectionFunc add = (x) => _contact.Addresses.Add(((AddressModel)x).ToDomainAddress());
-            CollectionFunc remove = (x) => _contact.Addresses.Remove(((AddressModel)x).ToDomainAddress());
+            CollectionFunc add = (x) =>
+            {
+                _contact.Addresses.Add(((AddressModel)x).ToDomainAddress());
+                ((AddressModel)x).ErrorsChanged += ErrorsChangedHandler;
+            };
+            CollectionFunc remove = (x) =>
+            {
+                _contact.Addresses.Remove(((AddressModel)x).ToDomainAddress());
+                ((AddressModel)x).ErrorsChanged -= ErrorsChangedHandler;
+            };
             CollectionChanged(e, "Addresses", add, remove);
         }
 
         private void Emails_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            CollectionFunc add = (x) => _contact.Emails.Add(((EmailModel)x).ToDomainEmail());
-            CollectionFunc remove = (x) => _contact.Emails.Remove(((EmailModel)x).ToDomainEmail());
+            CollectionFunc add = (x) =>
+            {
+                _contact.Emails.Add(((EmailModel)x).ToDomainEmail());
+                ((EmailModel)x).ErrorsChanged += ErrorsChangedHandler;
+            };
+            CollectionFunc remove = (x) =>
+            {
+                _contact.Emails.Remove(((EmailModel)x).ToDomainEmail());
+                ((EmailModel)x).ErrorsChanged -= ErrorsChangedHandler;
+            };
             CollectionChanged(e, "Emails", add, remove);
         }
 
         private void Groups_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            CollectionFunc add = (x) => _contact.Groups.Add(((GroupModel)x).ToDomainGroup());
-            CollectionFunc remove = (x) => _contact.Groups.Remove(((GroupModel)x).ToDomainGroup());
+            CollectionFunc add = (x) =>
+            {
+                _contact.Groups.Add(((GroupModel)x).ToDomainGroup());
+                ((GroupModel)x).ErrorsChanged += ErrorsChangedHandler;
+            };
+            CollectionFunc remove = (x) =>
+            {
+                _contact.Groups.Remove(((GroupModel)x).ToDomainGroup());
+                ((GroupModel)x).ErrorsChanged -= ErrorsChangedHandler;
+            };
             CollectionChanged(e, "Groups", add, remove);
         }
 
         private void Phones_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            CollectionFunc add = (x) => _contact.Phones.Add(((PhoneModel)x).ToDomainPhone());
-            CollectionFunc remove = (x) => _contact.Phones.Remove(((PhoneModel)x).ToDomainPhone());
+            CollectionFunc add = (x) =>
+            {
+                _contact.Phones.Add(((PhoneModel)x).ToDomainPhone());
+                ((PhoneModel)x).ErrorsChanged += ErrorsChangedHandler;
+            };
+            CollectionFunc remove = (x) =>
+            {
+                _contact.Phones.Remove(((PhoneModel)x).ToDomainPhone());
+                ((PhoneModel)x).ErrorsChanged -= ErrorsChangedHandler;
+            };
             CollectionChanged(e, "Phones", add, remove);
         }
         #endregion
@@ -151,6 +197,7 @@ namespace ContactBook.UI.WPFApp.Model
             {
                 string prop = "LastName";
                 string msg = $"Last name must be less than {Contact.LastNameMaxLength} characters.";
+                _contact.LastName = value;
                 ChangeError(() => _contact.ValidLastName(), prop, msg);
             }
         }
