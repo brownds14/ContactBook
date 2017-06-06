@@ -11,9 +11,25 @@
         Title="Contact Book" Height="700" Width="900">
 
     <Window.Resources>
+        <!--Converters-->
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
         <convert:InverseBoolToVisibilityConverter x:Key="NotBoolToVis" />
         <convert:InverseBoolConverter x:Key="NotBool" />
+        
+        <!--Images-->
+        <Image x:Key="AddAddress" Source="/Resources/AddAddress.png" />
+        <Image x:Key="AddEmail" Source="/Resources/AddEmail.png" />
+        <Image x:Key="AddContact" Source="/Resources/AddContact.png" />
+        <Image x:Key="AddGroup" Source="/Resources/AddGroup.png" />
+        <Image x:Key="AddPhone" Source="/Resources/AddPhone.png" />
+
+        <Image x:Key="RemoveAddress" Source="/Resources/RemoveAddress.png" />
+        <Image x:Key="RemoveEmail" Source="/Resources/RemoveEmail.png" />
+        <Image x:Key="RemoveContact" Source="/Resources/RemoveContact.png" />
+        <Image x:Key="RemoveGroup" Source="/Resources/RemoveGroup.png" />
+        <Image x:Key="RemovePhone" Source="/Resources/RemovePhone.png" />
+
+        <!--Styles-->
         <Style x:Key="errorStyle" TargetType="{x:Type TextBox}">
             <Style.Triggers>
                 <Trigger Property="Validation.HasError"
@@ -50,13 +66,13 @@
 
         <!--Toolbar-->
         <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal">
-            <Button Content="Add Contact" Command="{Binding CmdAddContact}" IsEnabled="{Binding IsEditing, Converter={StaticResource NotBool}}"/>
-            <Button Content="Remove Contact" Command="{Binding CmdRemoveContact}" />
+            <Button Width="50" Height="50" Content="{StaticResource AddContact}" Command="{Binding CmdAddContact}" IsEnabled="{Binding IsEditing, Converter={StaticResource NotBool}}"/>
+            <Button Width="50" Height="50" Content="{StaticResource RemoveContact}" Command="{Binding CmdRemoveContact}" />
         </StackPanel>
 
         <!--Headers-->
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="Contact List" HorizontalAlignment="Center" />
-        <TextBlock Grid.Row="1" Grid.Column="2" Text="Contact Info" HorizontalAlignment="Center" />
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Contact List" HorizontalAlignment="Center" FontWeight="Bold" FontSize="20" />
+        <TextBlock Grid.Row="1" Grid.Column="2" Text="Contact Info" HorizontalAlignment="Center" FontWeight="Bold" FontSize="20" />
 
         <!--Contact List-->
         <ListView Grid.Row="2" Grid.Column="0" Grid.RowSpan="2" ItemsSource="{Binding ContactList}" SelectedIndex="{Binding SelectedContactIndex}" IsEnabled="{Binding IsEditing, Converter={StaticResource NotBool}}">
@@ -64,7 +80,7 @@
                 <GridView>
                     <GridViewColumn Header="First Name" DisplayMemberBinding="{Binding FirstName}" />
                     <GridViewColumn Header="Last Name" DisplayMemberBinding="{Binding LastName}" />
-                    <GridViewColumn Header="Contact Type" DisplayMemberBinding="{Binding MiddleName}" />
+                    <GridViewColumn Header="Middle Name" DisplayMemberBinding="{Binding MiddleName}" />
                 </GridView>
             </ListView.View>
         </ListView>
@@ -129,8 +145,8 @@
                     </DataGrid>
 
                     <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-                        <Button Content="Add Group.." Command="{Binding CmdAddGroup}" Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}}" />
-                        <Button Content="Delete Group.." Command="{Binding CmdDeleteGroup}" Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}}" />
+                        <Button Width="30" Height="30" Content="{StaticResource AddGroup}" Command="{Binding CmdAddGroup}" Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}}" />
+                        <Button Width="30" Height="30" Content="{StaticResource RemoveGroup}" Command="{Binding CmdDeleteGroup}" Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}}" />
                     </StackPanel>
                 </Grid>
             </GroupBox>
@@ -167,8 +183,8 @@
                     </DataGrid>
 
                     <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-                        <Button Content="Add Phone.." Command="{Binding CmdAddPhone}" Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}}" />
-                        <Button Content="Delete Phone.." Command="{Binding CmdDeletePhone}" Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}}" />
+                        <Button Width="30" Height="30" Content="{StaticResource AddPhone}" Command="{Binding CmdAddPhone}" Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}}" />
+                        <Button Width="30" Height="30" Content="{StaticResource RemovePhone}" Command="{Binding CmdDeletePhone}" Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}}" />
                     </StackPanel>
                 </Grid>
             </GroupBox>
@@ -198,8 +214,8 @@
                     </DataGrid>
 
                     <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-                        <Button Content="Add Email.." Command="{Binding CmdAddEmail}" Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}}" />
-                        <Button Content="Delete Email.." Command="{Binding CmdDeleteEmail}" Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}}" />
+                        <Button Width="30" Height="30" Content="{StaticResource AddEmail}" Command="{Binding CmdAddEmail}" Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}}" />
+                        <Button Width="30" Height="30" Content="{StaticResource RemoveEmail}" Command="{Binding CmdDeleteEmail}" Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}}" />
                     </StackPanel>
                 </Grid>
             </GroupBox>
@@ -230,8 +246,8 @@
                     </DataGrid>
 
                     <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-                        <Button Content="Add Address.." Command="{Binding CmdAddAddress}" Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}}" />
-                        <Button Content="Delete Address.." Command="{Binding CmdDeleteAddress}" Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}}" />
+                        <Button Width="30" Height="30" Content="{StaticResource AddAddress}" Command="{Binding CmdAddAddress}" Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}}" />
+                        <Button Width="30" Height="30" Content="{StaticResource RemoveAddress}" Command="{Binding CmdDeleteAddress}" Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}}" />
                     </StackPanel>
                 </Grid>
             </GroupBox>

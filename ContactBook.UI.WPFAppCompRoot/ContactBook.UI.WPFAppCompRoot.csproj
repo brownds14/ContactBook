@@ -71,6 +71,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
@@ -175,6 +176,36 @@
       <Project>{B45E7BDD-DEF7-4058-8315-25239032B8FA}</Project>
       <Name>ContactBook.UI.WPFApp</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\AddEmail.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\AddPhone.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\RemoveEmail.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\RemovePhone.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\AddAddress.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\AddContact.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\AddGroup.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\RemoveAddress.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\RemoveContact.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\RemoveGroup.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
